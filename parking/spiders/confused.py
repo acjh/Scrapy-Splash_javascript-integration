@@ -1,7 +1,6 @@
 from scrapy.crawler import CrawlerProcess
 import scrapy
-from scrapy_playwright.page import PageCoroutine
-import pandas as pd
+from scrapy.utils.project import get_project_settings
 from scrapy_splash import SplashRequest
 from scrapy.loader import ItemLoader
 
@@ -56,11 +55,12 @@ class parkingSpider(scrapy.Spider):
                 cache_args=['lua_source'],
                 dont_filter = True,)
 
-process = CrawlerProcess(
-    settings = {
-        'FEED_URI':'parking.jl',
-        'FEED_FORMAT':'jsonlines'
-    }
-)
+
+settings = get_project_settings()
+settings.update({
+    'FEED_URI': 'parking.jl',
+    'FEED_FORMAT': 'jsonlines'
+})
+process = CrawlerProcess(settings)
 process.crawl(parkingSpider)
 process.start()

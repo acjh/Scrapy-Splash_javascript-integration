@@ -7,10 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'confused_test'
+BOT_NAME = 'parking'
 
-SPIDER_MODULES = ['confused_test.spiders']
-NEWSPIDER_MODULE = 'confused_test.spiders'
+SPIDER_MODULES = ['parking.spiders']
+NEWSPIDER_MODULE = 'parking.spiders'
 SPLASH_URL = 'http://localhost:8050'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

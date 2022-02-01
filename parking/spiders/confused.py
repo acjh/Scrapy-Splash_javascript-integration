@@ -12,7 +12,27 @@ function main(splash)
   assert(splash:set_content(content, "text/html; charset=utf-8", url))
   -- assert(splash:runjs('document.getElementsByClassName("btn-next")[0].children[0].click()'))
   assert(splash:runjs('ctrl.set_pageReload(ctrl.context.cur_page + 1)'))
-  assert(splash:wait(10))
+  assert(splash:runjs('window.notReloaded = 1'))
+  -- assert(splash:wait(2)) -- Optional initial wait time
+  local exit = false
+  while (exit == false)
+  do
+    result, error = splash:wait_for_resume([[
+      function main(splash) {
+        window.notReloaded ? splash.error() : splash.resume();
+      }
+    ]])
+    if result then
+      exit = true
+    else
+      splash:wait(0.2) -- Adjust resolution as desired
+    end
+  end
+  assert(splash:wait_for_resume([[
+    function main(splash) {
+      $(() => splash.resume());
+    }
+  ]]))
   return {html = splash:html()}
 end"""
 
